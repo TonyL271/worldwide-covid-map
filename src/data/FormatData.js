@@ -9,31 +9,40 @@ const loadGeoData = async () => {
     return fetch('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.json')
         .then(response => response.json())
         .then(data => {
-            let weird = false;
-            for (let key in data) {
-                weird |= data[key].total_cases == null;
-            }
-            let w = statesGeoData.every((feature) => feature.properties.hasOwnProperty('adm0_a3'))
             for (let i = statesGeoData.length - 1; i >= 0; i--) {
                 let feature = statesGeoData[i];
                 let countryCode = feature.properties.adm0_a3;
-                feature.properties.total_cases = countryCode in data ? data[countryCode].total_cases : null
+                feature.properties.cases = countryCode in data ? data[countryCode].total_cases : -1
             }
-            let magnitude = [];
-            statesGeoData.forEach((feature) => {
-                if (feature.properties.total_cases != null) {
-
-                    magnitude.push(feature.properties.total_cases)
-
-                }
-            })
-            let b = magnitude.sort(function (a, b) {
-                return a - b;
-            });
-            console.log(b)
-
             return statesGeoData
         });
 }
+const loadStatsData = (statesGeoData) => {
+    const rangesLength = 7;
 
-export { loadGeoData };
+    let sortedCases = [];
+    let totalCases = 0;
+    let cases;
+    statesGeoData.forEach((state) => {
+        cases = state.properties.cases;
+        sortedCases.push((cases));
+        totalCases += cases;
+    })
+    sortedCases = sortedCases.sort((a, b) => a - b);
+
+    const ranges = [];
+    let leastCount = sortedCases[0];
+    leastCount -= Math.pow(10, parseInt(Math.log10(10, leastCount)) - 1).toPrecision(2);
+    let maxCount = (sortedCases[sortedCases.length - 1]).toPrecision(2);
+    let diff = ((maxCount - leastCount) / rangesLength).toPrecision(2);
+    let from, to;
+
+    for (let i = 0; i < rangesLength; i++) {
+        from = parseFloat(leastCount) + (parseFloat(diff) * i) - 1;
+        to = parseFloat(leastCount) + parseFloat(diff) * (i + 1);
+        ranges.push([from, to]);
+    }
+    return { totalCases, ranges };
+}
+
+export { loadGeoData,loadStatsData };

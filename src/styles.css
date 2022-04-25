@@ -1,0 +1,37 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.app {
+    display: flex;
+}
+
+.mapContainer {
+    flex-basis: 1;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
+.covid-map {
+    flex-shrink: 1;
+    flex-basis: 90%;
+}
+
+.legend {
+    flex-basis: 10%;
+    flex-grow: 1;
+    width: 100%;
+}
+
+a.leaflet-control-zoom-in,
+a.leaflet-control-zoom-out {
+    color:#E80417;
+}
