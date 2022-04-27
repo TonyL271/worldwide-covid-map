@@ -35,6 +35,7 @@ const loadStatsData = (statesGeoData) => {
     ranges.pop()
     ranges[ranges.length - 1][1] = sortedCases.length - 1
     ranges = ranges.map((interval) => [sortedCases[interval[0]], sortedCases[interval[1]]])
+    ranges[0][0] = 0;
 
 
 
