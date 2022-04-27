@@ -18,30 +18,27 @@ const loadGeoData = async () => {
         });
 }
 const loadStatsData = (statesGeoData) => {
-    const rangesLength = 7;
-
-    let sortedCases = [];
+    let sortedCases = statesGeoData.map((feature) => feature.properties.cases).sort((a, b) => a - b)
+    sortedCases = sortedCases.filter((x) => x != -1)
+    const n = 7;
+    const inc = Math.ceil(sortedCases.length/7)
     let totalCases = 0;
-    let cases;
-    statesGeoData.forEach((state) => {
-        cases = state.properties.cases;
-        sortedCases.push((cases));
-        totalCases += cases;
-    })
-    sortedCases = sortedCases.sort((a, b) => a - b).filter((elem) => elem != -1);
-
-    const ranges = [];
-    let leastCount = 0;
-    let maxCount = (sortedCases[sortedCases.length - 1]).toPrecision(2);
-    let diff = ((maxCount - leastCount) / rangesLength).toPrecision(2);
-    let from, to;
-
-    for (let i = 0; i < rangesLength; i++) {
-        from = parseFloat(leastCount) + (parseFloat(diff) * i);
-        from = from == 0 ? from : from + 1;
-        to = parseFloat(leastCount) + parseFloat(diff) * (i + 1);
-        ranges.push([from, to]);
+    let ranges = []
+    for (let i = 0; i < n + 1; i++) {
+        ranges.push(i * inc)
     }
+
+    for (let i = 0; i < ranges.length-1; i++) {
+        totalCases += parseInt(sortedCases[i])
+        ranges[i] = [ranges[i], ranges[i + 1]]
+    }
+    ranges.pop()
+    ranges[ranges.length - 1][1] = sortedCases.length - 1
+    ranges = ranges.map((interval) => [sortedCases[interval[0]], sortedCases[interval[1]]])
+
+
+
+
     return { totalCases, ranges };
 }
 
