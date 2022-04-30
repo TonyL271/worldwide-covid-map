@@ -13,6 +13,7 @@ const loadGeoData = async () => {
                 let feature = statesGeoData[i];
                 let countryCode = feature.properties.adm0_a3;
                 feature.properties.cases = (countryCode in data && data[countryCode].total_cases != null) ? data[countryCode].total_cases : -1
+                feature.properties.casesFormatted = feature.properties.cases.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
             return statesGeoData
         });
@@ -21,15 +22,14 @@ const loadStatsData = (statesGeoData) => {
     let sortedCases = statesGeoData.map((feature) => feature.properties.cases).sort((a, b) => a - b)
     sortedCases = sortedCases.filter((x) => x != -1)
     const n = 7;
-    const inc = Math.ceil(sortedCases.length/7)
-    let totalCases = 0;
+    const inc = Math.ceil(sortedCases.length / 7)
+    let totalCases = sortedCases.reduce((prev, curr) => prev + curr);
     let ranges = []
     for (let i = 0; i < n + 1; i++) {
         ranges.push(i * inc)
     }
 
-    for (let i = 0; i < ranges.length-1; i++) {
-        totalCases += parseInt(sortedCases[i])
+    for (let i = 0; i < ranges.length - 1; i++) {
         ranges[i] = [ranges[i], ranges[i + 1]]
     }
     ranges.pop()
