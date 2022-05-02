@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CovidMap, Loading, Legend, CovidDataGrid,Hamburger } from './components';
+import { CovidMap, Loading, Legend, CovidDataGrid, Hamburger, DisplayToggle } from './components';
 import { loadGeoData, loadStatsData } from './data/FormatData';
 import './styles.css';
 function CovidApp() {
@@ -16,7 +16,7 @@ function CovidApp() {
   const updateGridState = () => {
     let classes = ''
     if (smallScreen) {
-      classes += open ? ' openGrid' : ' hideGrid';
+      classes += open ? 'openGrid' : 'hideGrid';
     } else {
       classes += 'default';
     }
@@ -46,11 +46,14 @@ function CovidApp() {
 
   return (
     <div className="covidApp">
-      <div className={gridState}>
-        {stats.hasOwnProperty('ranges') ? <CovidDataGrid selection={selection} setSelection={setSelection} geoJson={geoJson} colors={colors} stats={stats} smallScreen={smallScreen} geoRef={geoRef} /> : <Loading />}
+      <div className="menu">
+        {/* <DisplayToggle /> */}
+        <div className={"data-grid " + gridState}>
+          {stats.hasOwnProperty('ranges') ? <CovidDataGrid selection={selection} setSelection={setSelection} geoJson={geoJson} colors={colors} stats={stats} smallScreen={smallScreen} geoRef={geoRef} /> : <Loading />}
+        </div>
       </div>
       <div className="mapContainer">
-        {smallScreen && <Hamburger open={open} setOpen={setOpen}/>}
+        {smallScreen && <Hamburger open={open} setOpen={setOpen} />}
         {stats.hasOwnProperty('ranges') ? <CovidMap geoJson={geoJson} colors={colors} stats={stats} setGeoRef={setGeoRef} /> : <div>Loading</div>}
         {stats.hasOwnProperty('ranges') ? <Legend geoJson={geoJson} colors={colors} stats={stats} smallScreen={smallScreen} /> : <Loading />}
       </div>

@@ -55,7 +55,7 @@ body {
 /* TODO: add 1 */
 /* remove pagination */
 div.MuiDataGrid-footerContainer {
-    /* display: none; */
+    display: none;
 }
 
 a.leaflet-control-zoom-in,
