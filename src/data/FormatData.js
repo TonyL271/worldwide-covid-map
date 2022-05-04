@@ -1,9 +1,7 @@
-import * as data from './global.json'
-
+import * as data from './global.json';
 
 const { features } = data;
 let statesGeoData = features;
-
 
 const loadGeoData = async () => {
     return fetch('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/latest/owid-covid-latest.json')
@@ -12,8 +10,14 @@ const loadGeoData = async () => {
             for (let i = statesGeoData.length - 1; i >= 0; i--) {
                 let feature = statesGeoData[i];
                 let countryCode = feature.properties.adm0_a3;
-                feature.properties.cases = (countryCode in data && data[countryCode].total_cases != null) ? data[countryCode].total_cases : -1
-                feature.properties.casesFormatted = feature.properties.cases.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                if (countryCode in data) {
+                    feature.properties.cases = data[countryCode].total_cases != null ? data[countryCode].total_cases : -1
+                    feature.properties.VaccinationPercentage = data[countryCode].hasOwnProperty('total_vaccination') ? 100 * data[countryCode].total_vaccinations / data[countryCode].population : null;
+                } else{
+                    feature.properties.cases = -1
+                    feature.properties.VaccinationPercentage = -1
+                }
+                    feature.properties.casesFormatted = feature.properties.cases.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
             return statesGeoData
         });
@@ -36,9 +40,6 @@ const loadStatsData = (statesGeoData) => {
     ranges[ranges.length - 1][1] = sortedCases.length - 1
     ranges = ranges.map((interval) => [sortedCases[interval[0]], sortedCases[interval[1]]])
     ranges[0][0] = 0;
-
-
-
 
     return { totalCases, ranges };
 }

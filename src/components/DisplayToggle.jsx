@@ -22,6 +22,8 @@ export default function DisplayToggle() {
       exclusive
       onChange={handleChange}
       sx={{
+        width:'100%',
+        margin:'auto',
         borderRadius: '4px',
         // backgroundColor: alignment === 'cases' ? 'red' : 'green',
       }}
@@ -29,6 +31,8 @@ export default function DisplayToggle() {
       <ToggleButton
         value="cases"
         sx={{
+          width:'100%',
+          fontSize: '0.8rem',
           '&.Mui-selected, &.Mui-selected:hover': {
             color: 'red',
             border: 'solid 3px red',
@@ -39,10 +43,12 @@ export default function DisplayToggle() {
           backgroundColor: 'white',
 
         }}
-      > <CoronavirusIcon/>Total Covid Cases</ToggleButton>
+      > <CoronavirusIcon />Total <br/> Cases</ToggleButton>
       <ToggleButton
         value="vaccination"
         sx={{
+          width:'100%',
+          fontSize: '0.8rem',
           '&.Mui-selected, &.Mui-selected:hover': {
             color: 'green',
             backgroundColor: "rgba(0,255,0,0.25)",
@@ -52,7 +58,7 @@ export default function DisplayToggle() {
           borderRadius: '4px',
           backgroundColor: 'white'
         }}
-      ><VaccinesIcon/>Vaccination Rate</ToggleButton>
+      ><VaccinesIcon />Vaccination <br/> Rate</ToggleButton>
     </ToggleButtonGroup>
   );
 }

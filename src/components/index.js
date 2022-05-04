@@ -5,3 +5,4 @@ export {default as LegendItems} from './LegendItems';
 export {default as CovidDataGrid} from './CovidDataGrid';
 export {default as Hamburger} from './Hamburger';
 export {default as DisplayToggle} from './DisplayToggle';
+export {default as CountrySelect} from './CountrySelect';

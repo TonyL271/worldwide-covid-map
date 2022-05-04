@@ -11,11 +11,22 @@ body {
     display: flex;
 }
 
-
-/* TODO: add 3 */
-.default {
-    width: 350px;
+.menu{
+    width:350px;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.selection-panel{
+    background-color: rgba(0, 0, 0, 0.533);
+    margin:auto;
+    width:80%;
+    padding:1rem;
+}
+
+.default {
+    width: 100%;
+    flex-grow: 1;
     flex-shrink: 0;
 }
 
@@ -52,7 +63,6 @@ body {
     width: 100%;
 }
 
-/* TODO: add 1 */
 /* remove pagination */
 div.MuiDataGrid-footerContainer {
     display: none;
