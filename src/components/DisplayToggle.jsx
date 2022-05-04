@@ -4,21 +4,20 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import CoronavirusIcon from '@mui/icons-material/Coronavirus';
 
-export default function DisplayToggle() {
-  const [alignment, setAlignment] = React.useState('cases');
+export default function DisplayToggle({displayMode,setDisplayMode}) {
   const handleChange = (
     event,
-    newAlignment,
+    newDisplayMode,
   ) => {
-    if (newAlignment != null) {
-      setAlignment(newAlignment);
+    if (newDisplayMode != null) {
+      setDisplayMode(newDisplayMode);
     }
   };
 
   return (
     <ToggleButtonGroup
       color="primary"
-      value={alignment}
+      value={displayMode}
       exclusive
       onChange={handleChange}
       sx={{

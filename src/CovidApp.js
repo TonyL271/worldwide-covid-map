@@ -11,6 +11,7 @@ function CovidApp() {
   const [geoRef, setGeoRef] = useState(null);
   const [selection, setSelection] = useState('');
   const [open, setOpen] = useState(false);
+  const [displayMode, setDisplayMode] = useState('cases')
 
   const updateGridState = () => {
     let classes = ''
@@ -47,11 +48,16 @@ function CovidApp() {
     <div className="covidApp">
       <div className="menu">
         <div className='selection-panel'>
-          {/* <CountrySelect /> */}
-          <DisplayToggle />
+          <DisplayToggle displayMode={displayMode} setDisplayMode={setDisplayMode} />
         </div>
         <div className={"data-grid " + gridState}>
-          {stats.hasOwnProperty('ranges') ? <CovidDataGrid selection={selection} setSelection={setSelection} geoJson={geoJson} colors={colors} stats={stats} smallScreen={smallScreen} geoRef={geoRef} /> : <Loading />}
+          {stats.hasOwnProperty('ranges') ?
+            <CovidDataGrid
+              selection={selection} setSelection={setSelection}
+              geoJson={geoJson} colors={colors}
+              stats={stats} smallScreen={smallScreen}
+              geoRef={geoRef} displayMode={displayMode}
+            /> : <Loading />}
         </div>
       </div>
       <div className="mapContainer">

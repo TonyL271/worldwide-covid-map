@@ -9,22 +9,25 @@ const deciComparator = (v1, v2) => {
 const percentComparator = (v1, v2) => {
     return parseFloat(v2.replaceAll('%', '')) - parseFloat(v1.replaceAll('%', ''));
 }
-const columns = [
-    { field: 'id', headerName: 'ID', hide: true },
-    { field: 'bounds', headerName: 'Bounds', hide: true },
-    { field: 'country', headerName: 'Country', flex: 1 },
-    { field: 'covidCases', headerName: 'Covid Cases', sortComparator: deciComparator, flex: 0.8 },
-    { field: 'percentByPop', headerName: ' % by Pop', sortComparator: percentComparator, flex: 0.65 }
-];
 
 
 
-const CovidDataGrid = ({ selection, setSelection, geoJson, colors, stats, smallScreen, geoRef }) => {
+const CovidDataGrid = ({ selection, setSelection, geoJson, colors, stats, smallScreen, geoRef, displayMode }) => {
+
+    const columns = [
+        { field: 'id', headerName: 'ID', hide: true },
+        { field: 'bounds', headerName: 'Bounds', hide: true },
+        { field: 'country', headerName: 'Country', flex: 1 },
+        { field: 'covidCases', headerName: 'Covid Cases', hide: !(displayMode === 'cases'), sortComparator: deciComparator, flex: 0.8 },
+        { field: 'vaccinationRates', headerName: 'Vaccination Rate', hide: displayMode === 'cases', sortComparator: deciComparator, flex: 0.8 },
+        { field: 'percentByPop', headerName: ' % by Pop', hide: !(displayMode === 'cases'), sortComparator: percentComparator, flex: 0.65 }
+    ];
+
     const [gridRows, setGridRows] = useState([]);
 
     const intializeRow = () => {
         let bounds = {};
-        for (const [key,layer] of Object.entries(geoRef._layers)){
+        for (const [key, layer] of Object.entries(geoRef._layers)) {
             const name = layer.feature.properties.name;
             const bound = layer._bounds
             bounds[name] = bound;
@@ -39,6 +42,8 @@ const CovidDataGrid = ({ selection, setSelection, geoJson, colors, stats, smallS
             row.bounds = bounds[state.properties.name];
             row.country = state.properties.name;
             row.covidCases = state.properties.casesFormatted;
+            row.vaccinationRates = state.properties.vaccinationPercentage.toPrecision(2) + "%";
+            row.vaccinationRates = row.vaccinationRates === '-1.0%' ? 'not Recorded' : row.vaccinationRates ;
             row.percentByPop = ((state.properties.cases / stats.totalCases) * 100).toPrecision(2) + "%";
             rows.push(row);
         }
