@@ -20,7 +20,7 @@ const CovidDataGrid = ({ selection, setSelection, geoJson, colors, stats, smallS
         { field: 'country', headerName: 'Country', flex: 1 },
         { field: 'covidCases', headerName: 'Covid Cases', hide: !(displayMode === 'cases'), sortComparator: deciComparator, flex: 0.8 },
         { field: 'vaccinationRates', headerName: 'Vaccination Rate', hide: displayMode === 'cases', sortComparator: deciComparator, flex: 0.8 },
-        { field: 'percentByPop', headerName: ' % by Pop', hide: !(displayMode === 'cases'), sortComparator: percentComparator, flex: 0.65 }
+        { field: 'percentByPop', headerName: ' %', hide: !(displayMode === 'cases'), sortComparator: percentComparator, flex: 0.65 }
     ];
 
     const [gridRows, setGridRows] = useState([]);
@@ -41,9 +41,9 @@ const CovidDataGrid = ({ selection, setSelection, geoJson, colors, stats, smallS
             row.id = i;
             row.bounds = bounds[state.properties.name];
             row.country = state.properties.name;
-            row.covidCases = state.properties.casesFormatted;
+            row.covidCases = state.properties.casesFormatted === '-1' ? 'No Data' : state.properties.casesFormatted;
             row.vaccinationRates = state.properties.vaccinationPercentage.toPrecision(2) + "%";
-            row.vaccinationRates = row.vaccinationRates === '-1.0%' ? 'not Recorded' : row.vaccinationRates ;
+            row.vaccinationRates = row.vaccinationRates === '-1.0%' ? 'No Data' : row.vaccinationRates ;
             row.percentByPop = ((state.properties.cases / stats.totalCases) * 100).toPrecision(2) + "%";
             rows.push(row);
         }

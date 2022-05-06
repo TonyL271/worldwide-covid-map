@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CovidMap, Loading, Legend, CovidDataGrid, Hamburger, DisplayToggle, CountrySelect } from './components';
+import { CovidMap, Loading, Legend, CovidTable, Hamburger, DisplayToggle, CountrySelect } from './components';
 import { loadGeoData, loadStatsData } from './data/FormatData';
 import './styles.css';
 function CovidApp() {
@@ -52,11 +52,10 @@ function CovidApp() {
         </div>
         <div className={"data-grid " + gridState}>
           {stats.hasOwnProperty('ranges') ?
-            <CovidDataGrid
+            <CovidTable
               selection={selection} setSelection={setSelection}
-              geoJson={geoJson} colors={colors}
+              geoJson={geoJson} displayMode={displayMode}
               stats={stats} smallScreen={smallScreen}
-              geoRef={geoRef} displayMode={displayMode}
             /> : <Loading />}
         </div>
       </div>
