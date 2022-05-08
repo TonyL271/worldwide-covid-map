@@ -110,7 +110,7 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
 
     return (
 
-        <MaUTable   {...getTableProps()} >
+        <MaUTable {...getTableProps()} >
             <TableHead >
                 {headerGroups.map(headerGroup => (
                     <TableRow {...headerGroup.getHeaderGroupProps()}>
