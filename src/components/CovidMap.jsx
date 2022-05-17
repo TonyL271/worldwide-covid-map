@@ -38,7 +38,6 @@ const CovidMap = ({ geoJson, colors, stats: { ranges }, setGeoRef }) => {
     const onEachCountry = (state, layer) => {
         layer.on({
             mouseover: highlightState,
-            // mouseout: resetHighlight,
             // click: zoomToFeature,
         });
         let name = state.properties.name;

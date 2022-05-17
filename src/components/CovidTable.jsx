@@ -6,6 +6,9 @@ import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import { Box } from '@mui/material'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) => {
     const data = React.useMemo(
@@ -22,9 +25,7 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
 
                 row.country = state.properties.name;
                 if (state.properties.cases === -1) {
-                    row.covidCase = 'No Data'
-                    row.vaccinationRate = 'No Data'
-                    row.percentByPop = 'No Data'
+                    continue;
                 } else {
                     row.covidCase = state.properties.casesFormatted;
                     row.vaccinationRate = state.properties.vaccinationPercentage.toPrecision(2) + "%";
@@ -37,16 +38,17 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
         []
     )
 
-    const numericalCommaSort = (a, b) => {
+    const covidCaseSort = (a, b) => {
         a = a.cells[1].value.split(',').reduce((a, b) => a + b);
         b = b.cells[1].value.split(',').reduce((a, b) => a + b);
-        if (b === 'No Data') {
-            b = 0
-        }
-        if (a === 'No Data') {
-            a = 0
-        }
-        return parseInt(a) - parseInt(b)
+        return parseInt(b) - parseInt(a);
+    }
+
+    const vaccinationSort = (a, b) => {
+        let c = a.cells;
+        a = parseFloat(a.cells[1].value.split('%').reduce((a, b) => a + b));
+        b = parseFloat(b.cells[1].value.split('%').reduce((a, b) => a + b));
+        return parseInt(b) - parseInt(a);
     }
 
     const columns = React.useMemo(
@@ -66,16 +68,17 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
             {
                 Header: 'Covid Case',
                 accessor: 'covidCase',
-                sortType: numericalCommaSort,
+                sortType: covidCaseSort,
             },
             {
                 Header: 'Vaccination Rate',
                 accessor: 'vaccinationRate',
+                sortType: vaccinationSort,
             },
             {
                 Header: '%',
                 accessor: 'percentByPop',
-                sortType: numericalCommaSort,
+                sortType: covidCaseSort,
             },
         ],
         []
@@ -109,68 +112,67 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
     }, [displayMode])
 
     return (
-
-        <MaUTable {...getTableProps()} >
-            <TableHead >
-                {headerGroups.map(headerGroup => (
-                    <TableRow {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map(column => (
-                            <TableCell
-                                {...column.getHeaderProps(column.getSortByToggleProps())}
-                                sx={{
-                                    textAlign: 'center',
-                                    borderBottom: 'solid 3px white',
-                                    borderRight: 'solid 3px white',
-                                    background: '#181A1B',
-                                    color: 'white',
-                                    fontSize: '1.2rem',
-                                    fontWeight: 'bold',
-                                }}
-                            >
-                                {column.render('Header')}
-                                <span>
-                                    {column.isSorted
-                                        ? column.isSortedDesc
-                                            ? ' 🔽'
-                                            : ' 🔼'
-                                        : ''}
-                                </span>
-                            </TableCell>
-                        ))}
-                    </TableRow>
-                ))}
-            </TableHead>
-            <TableBody {...getTableBodyProps()}>
-                {rows.map(row => {
-                    prepareRow(row)
-                    return (
-                        <TableRow {...row.getRowProps()}>
-                            {row.cells.map(cell => {
-                                console.log(cell.column.id)
-                                return (
+        <Box sx={{ padding: '1rem'}}>
+            <Box>
+                <MaUTable {...getTableProps()} >
+                    <TableHead >
+                        {headerGroups.map(headerGroup => (
+                            <TableRow {...headerGroup.getHeaderGroupProps()}>
+                                {headerGroup.headers.map(column => (
                                     <TableCell
-                                        {...cell.getCellProps()}
+                                        {...column.getHeaderProps(column.getSortByToggleProps())}
                                         sx={{
-                                            textAlign: ['vaccinationRate', 'covidCase', 'percentByPop'].includes(cell.column.id) ? 'center' : 'left',
-                                            padding: '10px',
-                                            borderRight: 'solid 3px white',
+                                            textAlign: 'center',
                                             borderBottom: 'solid 1px white',
-                                            color: 'white',
                                             background: '#181A1B',
-                                            fontSize: '1rem',
+                                            color: 'white',
+                                            fontSize: '1.0rem',
                                             fontWeight: 'bold',
                                         }}
                                     >
-                                        {cell.render('Cell')}
+                                        {column.render('Header')}
+                                        <span>
+                                            {column.isSorted
+                                                ? column.isSortedDesc
+                                                    ? <ArrowDropDownIcon/>
+                                                    : <ArrowDropUpIcon/>
+                                                : ''}
+                                        </span>
                                     </TableCell>
-                                )
-                            })}
-                        </TableRow>
-                    )
-                })}
-            </TableBody>
-        </MaUTable>
-
+                                ))}
+                            </TableRow>
+                        ))}
+                    </TableHead>
+                    <TableBody {...getTableBodyProps()}>
+                        {rows.map(row => {
+                            prepareRow(row)
+                            return (
+                                <TableRow {...row.getRowProps()}>
+                                    {row.cells.map(cell => {
+                                        return (
+                                            <TableCell
+                                                {...cell.getCellProps()}
+                                                sx={{
+                                                    textAlign: ['vaccinationRate', 'covidCase', 'percentByPop'].includes(cell.column.id) ? 'center' : 'left',
+                                                    py:'1rem',
+                                                    px:'0.5rem',
+                                                    borderBottom: 'solid 1px white',
+                                                    color: 'white',
+                                                    background: '#181A1B',
+                                                    fontSize: '0.8rem',
+                                                }}
+                                            >
+                                                {cell.render('Cell')}
+                                            </TableCell>
+                                        )
+                                    })}
+                                </TableRow>
+                            )
+                        })}
+                    </TableBody>
+                </MaUTable>
+            </Box>
+        </Box>
     )
 }
 

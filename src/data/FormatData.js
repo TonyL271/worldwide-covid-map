@@ -13,11 +13,11 @@ const loadGeoData = async () => {
                 if (countryCode in data) {
                     feature.properties.cases = data[countryCode].total_cases != null ? data[countryCode].total_cases : -1
                     feature.properties.vaccinationPercentage = data[countryCode].hasOwnProperty('total_vaccinations') ? 100 * data[countryCode].people_vaccinated / data[countryCode].population : null;
-                } else{
+                } else {
                     feature.properties.cases = -1
                     feature.properties.vaccinationPercentage = -1
                 }
-                    feature.properties.casesFormatted = feature.properties.cases.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                feature.properties.casesFormatted = feature.properties.cases.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             }
             return statesGeoData
         });

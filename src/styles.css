@@ -18,8 +18,8 @@ body {
     flex-direction: column;
     background-color: #181A1B;
 }
+
 .selection-panel{
-    background-color: rgba(0, 0, 0, 0.533);
     margin:auto;
     width:80%;
     padding:1rem;
