@@ -12,7 +12,15 @@ const loadGeoData = async () => {
                 let countryCode = feature.properties.adm0_a3;
                 if (countryCode in data) {
                     feature.properties.cases = data[countryCode].total_cases != null ? data[countryCode].total_cases : -1
-                    feature.properties.vaccinationPercentage = data[countryCode].hasOwnProperty('total_vaccinations') ? 100 * data[countryCode].people_vaccinated / data[countryCode].population : null;
+                    if (data[countryCode].hasOwnProperty('people_vaccinated')) {
+                        let peopleVaccinated = data[countryCode].people_vaccinated;
+                        let population = data[countryCode].population;
+                        feature.properties.vaccinationPercentage = 100 * peopleVaccinated / population;
+                        if (feature.properties.vaccinationPercentage > 100){
+                            feature.properties.cases = -1
+                            feature.properties.vaccinationPercentage = -1;
+                        }
+                    }
                 } else {
                     feature.properties.cases = -1
                     feature.properties.vaccinationPercentage = -1

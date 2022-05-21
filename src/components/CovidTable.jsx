@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useTable, useSortBy } from 'react-table'
-import CssBaseline from '@material-ui/core/CssBaseline'
 import MaUTable from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -39,15 +38,14 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
     )
 
     const covidCaseSort = (a, b) => {
-        a = a.cells[1].value.split(',').reduce((a, b) => a + b);
-        b = b.cells[1].value.split(',').reduce((a, b) => a + b);
+        a = a.values.covidCase.split(',').reduce((a, b) => a + b);
+        b = b.values.covidCase.split(',').reduce((a, b) => a + b);
         return parseInt(b) - parseInt(a);
     }
 
     const vaccinationSort = (a, b) => {
-        let c = a.cells;
-        a = parseFloat(a.cells[1].value.split('%').reduce((a, b) => a + b));
-        b = parseFloat(b.cells[1].value.split('%').reduce((a, b) => a + b));
+        a = parseFloat(a.values.vaccinationRate.split('%').reduce((a, b) => a + b));
+        b = parseFloat(b.values.vaccinationRate.split('%').reduce((a, b) => a + b));
         return parseInt(b) - parseInt(a);
     }
 
@@ -62,7 +60,7 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
                 accessor: 'id', // accessor is the "key" in the data
             },
             {
-                Header: 'country',
+                Header: 'Country',
                 accessor: 'country', // accessor is the "key" in the data
             },
             {
@@ -84,6 +82,8 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
         []
     )
 
+    const sortBy = useMemo(() => [{ id: 'covidCase', desc: false }])
+
     const {
         getTableProps,
         getTableBodyProps,
@@ -91,11 +91,18 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
         rows,
         prepareRow,
         allColumns,
-    } = useTable({ columns, data }, useSortBy)
+    } = useTable({
+        columns, data,
+        initialState: {
+            sortBy: sortBy
+        }
+    }, useSortBy)
 
     useEffect(() => {
         allColumns[0].toggleHidden(true);
         allColumns[1].toggleHidden(true);
+        console.log(document.getElementsByClassName('MuiTableHead-root')[0].childNodes[0].childNodes[0]);
+        console.dir(allColumns[5]);
     }, [])
 
     useEffect(() => {
@@ -112,7 +119,7 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
     }, [displayMode])
 
     return (
-        <Box sx={{ padding: '1rem'}}>
+        <Box sx={{ margin: '1rem', border: '1px solid white' }}>
             <Box>
                 <MaUTable {...getTableProps()} >
                     <TableHead >
@@ -134,8 +141,8 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
                                         <span>
                                             {column.isSorted
                                                 ? column.isSortedDesc
-                                                    ? <ArrowDropDownIcon/>
-                                                    : <ArrowDropUpIcon/>
+                                                    ? <ArrowDropDownIcon sx={{ color: '#e600ff', transform: 'scale(1.5)' }} />
+                                                    : <ArrowDropUpIcon sx={{ color: '#e600ff', transform: 'scale(1.5)' }} />
                                                 : ''}
                                         </span>
                                     </TableCell>
@@ -154,8 +161,8 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
                                                 {...cell.getCellProps()}
                                                 sx={{
                                                     textAlign: ['vaccinationRate', 'covidCase', 'percentByPop'].includes(cell.column.id) ? 'center' : 'left',
-                                                    py:'1rem',
-                                                    px:'0.5rem',
+                                                    py: '1rem',
+                                                    px: '0.5rem',
                                                     borderBottom: 'solid 1px white',
                                                     color: 'white',
                                                     background: '#181A1B',

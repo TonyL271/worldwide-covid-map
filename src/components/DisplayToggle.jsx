@@ -32,8 +32,11 @@ export default function DisplayToggle({displayMode,setDisplayMode}) {
         sx={{
           width:'100%',
           fontSize: '0.8rem',
+          '&:hover':{
+            color:'white'
+          },
           '&.Mui-selected, &.Mui-selected:hover': {
-            color: 'red',
+            color: 'white',
             border: 'solid 3px red',
             backgroundColor: "rgba(255,0,0,0.2)"
           },
@@ -48,8 +51,11 @@ export default function DisplayToggle({displayMode,setDisplayMode}) {
         sx={{
           width:'100%',
           fontSize: '0.8rem',
+          '&:hover':{
+            color:'white'
+          },
           '&.Mui-selected, &.Mui-selected:hover': {
-            color: 'green',
+            color: 'white',
             backgroundColor: "rgba(0,255,0,0.25)",
             border: 'solid 3px green',
           },

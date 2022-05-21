@@ -4,7 +4,7 @@ import L from 'leaflet';
 
 const CovidMap = ({ geoJson, colors, stats: { ranges }, setGeoRef }) => {
     let accessToken = 'pk.eyJ1IjoidG9ueWwyNzEiLCJhIjoiY2wxdmY4OWM2MmhxcDNrbWptNzBidjV6YSJ9.KwCsotDTXdDE-ntiAzNd5A';
-    const hoverStyle = { weight: 2, color: '#6224ff', dashArray: '', fillOpacity: 0.7 }
+    const hoverStyle = { weight: 3, color: '#6224ff', dashArray: '', fillOpacity: 0.7 }
     const [hovered, setHovered] = useState(null);
 
     const countryStyle = (state) => {
@@ -41,8 +41,8 @@ const CovidMap = ({ geoJson, colors, stats: { ranges }, setGeoRef }) => {
             // click: zoomToFeature,
         });
         let name = state.properties.name;
-        let cases = state.properties.cases;
-        layer.bindPopup(`<p>name: ${name} <br/> covidCount: ${cases}</p>`).openPopup();
+        let cases = state.properties.casesFormatted;
+        layer.bindPopup(`<p>Name: ${name} <br/> Covid Cases: ${cases}</p>`).openPopup();
     }
 
     const setRef = useCallback((geoComponent) => (
