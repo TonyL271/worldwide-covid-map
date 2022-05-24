@@ -3,9 +3,9 @@ import LegendItems from './LegendItems'
 import { Grid } from '@mui/material'
 
 
-const Legend = ({ colors, stats, smallScreen }) => {
+const Legend = ({ colors, stats, smallScreen,sx }) => {
   return (
-    <Grid container className='legend'>
+    <Grid container className='legend' sx={sx}>
       <LegendItems smallScreen={smallScreen} range={stats.ranges[0]} bColor={colors[0]} />
       <LegendItems smallScreen={smallScreen} range={stats.ranges[1]} bColor={colors[1]} />
       <LegendItems smallScreen={smallScreen} range={stats.ranges[2]} bColor={colors[2]} />

@@ -1,9 +1,10 @@
 import React from 'react'
 import MenuIcon from '@mui/icons-material/Menu';
-const Hamburger = ({open,setOpen}) => {
+const Hamburger = ({ open, setOpen, sx}) => {
     return (
         <MenuIcon
             sx={{
+                ... sx,
                 width: {
                     xs: '2.5rem',
                     sm: '3.5rem'
@@ -14,7 +15,6 @@ const Hamburger = ({open,setOpen}) => {
                     sm: '3.5rem'
                 },
                 backgroundColor: 'white',
-                position: 'absolute',
                 color: 'red',
                 zIndex: 3000,
                 mt: '2rem',
