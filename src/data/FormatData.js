@@ -1,4 +1,4 @@
-import * as data from './global.json';
+import data from './global.json';
 
 const { features } = data;
 let statesGeoData = features;
