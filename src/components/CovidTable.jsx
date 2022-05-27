@@ -19,9 +19,6 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
                 row = {}
                 row.id = i + 1;
                 state = geoJson[i];
-                //TODO: add bounds
-                row.bounds = 'later'
-
                 row.country = state.properties.name;
                 if (state.properties.cases === -1) {
                     continue;
@@ -119,7 +116,21 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
     }, [displayMode])
 
     return (
-        <Box sx={{ margin: '1rem', border: '1px solid white' }}>
+        <Box sx={{
+            margin: '1rem', border: '1px solid white',
+            '&::-webkit-scrollbar': {
+                height: '7px'
+            },
+            '&::-webkit-scrollbar-track': {
+                borderRadius: '10px',
+                webkitBoxShadow: 'inset 0 0 6px rgba(0, 0, 0, 0.3)',
+            },
+            '&::-webkit-scrollbar-thumb': {
+                // backgroundColor: 'a6c53b',
+                backgroundColor: 'red',
+                webkitBoxShadow: 'inset 0 0 6px rgba(0, 0, 0, 0.5)',
+            }
+        }}>
             <Box>
                 <MaUTable {...getTableProps()} >
                     <TableHead >
@@ -179,7 +190,7 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
                     </TableBody>
                 </MaUTable>
             </Box>
-        </Box>
+        </Box >
     )
 }
 

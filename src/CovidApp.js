@@ -3,6 +3,7 @@ import { CovidMap, Loading, Legend, CovidTable, Hamburger, DisplayToggle, Countr
 import { loadGeoData, loadStatsData } from './data/FormatData';
 import Box from '@mui/material/Box';
 import './styles.css';
+import { borderRadius } from '@mui/system';
 function CovidApp() {
   const colors = ["#FFEDA0", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"];
   const [geoJson, setGeoJson] = useState([]);
@@ -52,7 +53,19 @@ function CovidApp() {
           <DisplayToggle displayMode={displayMode} setDisplayMode={setDisplayMode} />
         </Box>
         {/* prefviosuly this changed states */}
-        <Box className="data-grid" sx={{ width: '100%', height: '100%', flexGrow: 1, overflowY: 'scroll' }}>
+        <Box className="data-grid" sx={{ width: '100%', height: '100%', flexGrow: 1, overflowY: 'scroll',
+            '&::-webkit-scrollbar': {
+              width:'20px',
+            },
+            '&::-webkit-scrollbar-track': {
+                border:'7px solid #232943',
+                boxShadow:'inset 0 0 2.5px 2px rgba(0,0,0,0.5)',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background:'linear-gradient(45deg,#06dee1,#79ff6c)',
+              borderRadius:'15px',
+            }
+       }}>
           {stats.hasOwnProperty('ranges') ?
             <CovidTable
               selection={selection} setSelection={setSelection}
