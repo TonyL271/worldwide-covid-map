@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
 import L from 'leaflet';
 
-const CovidMap = ({ geoJson, colors, stats: { ranges }, setGeoRef }) => {
+const CovidMap = ({ geoJson, colors, stats: { ranges }}) => {
     let accessToken = 'pk.eyJ1IjoidG9ueWwyNzEiLCJhIjoiY2wxdmY4OWM2MmhxcDNrbWptNzBidjV6YSJ9.KwCsotDTXdDE-ntiAzNd5A';
     const hoverStyle = { weight: 3, color: '#6224ff', dashArray: '', fillOpacity: 0.7 }
     const [hovered, setHovered] = useState(null);
@@ -45,10 +45,6 @@ const CovidMap = ({ geoJson, colors, stats: { ranges }, setGeoRef }) => {
         layer.bindPopup(`<p>Name: ${name} <br/> Covid Cases: ${cases}</p>`).openPopup();
     }
 
-    const setRef = useCallback((geoComponent) => (
-        setGeoRef(geoComponent)
-    ), [])
-
     return (
         <MapContainer
             style={{ backgroundColor: '#25282D', height: '90%', width: '100%' }}
@@ -59,7 +55,7 @@ const CovidMap = ({ geoJson, colors, stats: { ranges }, setGeoRef }) => {
                 map.target.zoomControl._container.style = 'margin-top:2rem; margin-right:2rem;';
             }}
         >
-            <GeoJSON ref={setRef} data={geoJson} style={countryStyle} onEachFeature={onEachCountry} />
+            <GeoJSON data={geoJson} style={countryStyle} onEachFeature={onEachCountry} />
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url={`https://api.mapbox.com/styles/v1/mapbox/dark-v9/tiles/{z}/{x}/{y}?access_token=${accessToken}`}

@@ -3,13 +3,11 @@ import { CovidMap, Loading, Legend, CovidTable, Hamburger, DisplayToggle, Countr
 import { loadGeoData, loadStatsData } from './data/FormatData';
 import Box from '@mui/material/Box';
 import './styles.css';
-import { borderRadius } from '@mui/system';
 function CovidApp() {
   const colors = ["#FFEDA0", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"];
   const [geoJson, setGeoJson] = useState([]);
   const [stats, setStats] = useState({});
   const [smallScreen, setSmallScreen] = useState(window.innerWidth < 1000);
-  const [geoRef, setGeoRef] = useState(null);
   const [selection, setSelection] = useState('');
   const [open, setOpen] = useState(false);
   const [displayMode, setDisplayMode] = useState('cases')
@@ -52,7 +50,6 @@ function CovidApp() {
         }} >
           <DisplayToggle displayMode={displayMode} setDisplayMode={setDisplayMode} />
         </Box>
-        {/* prefviosuly this changed states */}
         <Box className="data-grid" sx={{ width: '100%', height: '100%', flexGrow: 1, overflowY: 'scroll',
             '&::-webkit-scrollbar': {
               width:'20px',
@@ -76,7 +73,7 @@ function CovidApp() {
       </Box>
       <Box className="mapContainer" sx={{ display: smallScreen && open ? "none" : 'flex' }}>
         {smallScreen && <Hamburger open={open} setOpen={setOpen} sx={{ position: 'absolute' }} />}
-        {stats.hasOwnProperty('ranges') ? <CovidMap geoJson={geoJson} colors={colors} stats={stats} setGeoRef={setGeoRef} /> : <div>Loading</div>}
+        {stats.hasOwnProperty('ranges') ? <CovidMap geoJson={geoJson} colors={colors} stats={stats} /> : <div>Loading</div>}
         {stats.hasOwnProperty('ranges') ? <Legend geoJson={geoJson} colors={colors} stats={stats} smallScreen={smallScreen} sx={{ height: '10%' }} /> : <Loading />}
       </Box>
     </div >

@@ -9,7 +9,7 @@ import { Box } from '@mui/material'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
-const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) => {
+const CovidTable = ({ displayMode, geoJson, stats,}) => {
     const data = React.useMemo(
         () => {
             let result = []
@@ -98,8 +98,6 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
     useEffect(() => {
         allColumns[0].toggleHidden(true);
         allColumns[1].toggleHidden(true);
-        console.log(document.getElementsByClassName('MuiTableHead-root')[0].childNodes[0].childNodes[0]);
-        console.dir(allColumns[5]);
     }, [])
 
     useEffect(() => {
@@ -129,7 +127,8 @@ const CovidTable = ({ displayMode, geoJson, stats, selection, setSelection }) =>
                 // backgroundColor: 'a6c53b',
                 backgroundColor: 'red',
                 webkitBoxShadow: 'inset 0 0 6px rgba(0, 0, 0, 0.5)',
-            }
+            },
+            marginTop:0
         }}>
             <Box>
                 <MaUTable {...getTableProps()} >
