@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CovidMap, Loading, Legend, CovidTable, Hamburger, DisplayToggle, CountrySelect } from './components';
+import { CovidMap, Loading, Legend, CovidTable, Hamburger, DisplayToggle} from './components';
 import { loadGeoData, loadStatsData } from './data/FormatData';
 import Box from '@mui/material/Box';
 import './styles.css';

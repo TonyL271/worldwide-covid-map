@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet';
-import L from 'leaflet';
+// import L from 'leaflet';
 
 const CovidMap = ({ geoJson, colors, stats: { ranges }}) => {
     let accessToken = 'pk.eyJ1IjoidG9ueWwyNzEiLCJhIjoiY2wxdmY4OWM2MmhxcDNrbWptNzBidjV6YSJ9.KwCsotDTXdDE-ntiAzNd5A';
@@ -30,9 +30,9 @@ const CovidMap = ({ geoJson, colors, stats: { ranges }}) => {
     const highlightState = (e) => {
         let layer = e.target;
         setHovered(layer.feature.properties)
-        if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-            layer.bringToFront();
-        }
+        // if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        //     layer.bringToFront();
+        // }
     }
 
     const onEachCountry = (state, layer) => {
@@ -49,7 +49,7 @@ const CovidMap = ({ geoJson, colors, stats: { ranges }}) => {
         <MapContainer
             style={{ backgroundColor: '#25282D', height: '90%', width: '100%' }}
             center={[39.162497380360634, 0]}
-            zoom={2}
+            zoom={2.5}
             whenReady={(map) => {
                 map.target.zoomControl.setPosition('topright');
                 map.target.zoomControl._container.style = 'margin-top:2rem; margin-right:2rem;';
