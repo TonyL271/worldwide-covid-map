@@ -9,7 +9,7 @@ function CovidApp() {
    const [geoJson, setGeoJson] = useState([]);
    const [stats, setStats] = useState({});
    const [smallScreen, setSmallScreen] = useState(window.innerWidth < 1000);
-   const [selection, setSelection] = useState('');
+   const [focusRegion, setFocusRegion] = useState('');
    const [open, setOpen] = useState(false);
    const [displayMode, setDisplayMode] = useState('cases')
 
@@ -67,7 +67,7 @@ function CovidApp() {
             }}>
                {stats.hasOwnProperty('ranges') ?
                   <CovidTable
-                     selection={selection} setSelection={setSelection}
+                     focusRegion={focusRegion} setFocusRegion={setFocusRegion}
                      geoJson={geoJson} displayMode={displayMode}
                      stats={stats} smallScreen={smallScreen}
                   /> : <Loading />}
@@ -75,8 +75,18 @@ function CovidApp() {
          </Box>
          <Box className="mapContainer" sx={{ display: smallScreen && open ? "none" : 'flex' }}>
             {smallScreen && <Hamburger open={open} setOpen={setOpen} sx={{ position: 'absolute' }} />}
-            {stats.hasOwnProperty('ranges') ? <CovidMap geoJson={geoJson} colors={colors} stats={stats} /> : <div>Loading</div>}
-            {stats.hasOwnProperty('ranges') ? <Legend geoJson={geoJson} colors={colors} stats={stats} smallScreen={smallScreen} sx={{ height: '10%' }} /> : <Loading />}
+            {stats.hasOwnProperty('ranges') ?
+               <CovidMap
+                  geoJson={geoJson}
+                  colors={colors}
+                  stats={stats}
+                  focusRegion={focusRegion}
+                  setFocusRegion={setFocusRegion}
+               /> :
+               <div>Loading</div>}
+            {stats.hasOwnProperty('ranges') ?
+               <Legend geoJson={geoJson} colors={colors} stats={stats} smallScreen={smallScreen} sx={{ height: '10%' }} /> :
+               <Loading />}
          </Box>
       </div >
    );

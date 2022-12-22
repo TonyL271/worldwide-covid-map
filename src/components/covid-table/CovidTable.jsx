@@ -4,7 +4,7 @@ import MaUTable from '@material-ui/core/Table'
 import { Box } from '@mui/material'
 import {Body,Head} from './'
 
-const CovidTable = ({ displayMode, geoJson, stats, }) => {
+const CovidTable = ({ displayMode, geoJson, stats,focusRegion,setFocusRegion }) => {
     const data = React.useMemo(
         () => {
             let result = []
