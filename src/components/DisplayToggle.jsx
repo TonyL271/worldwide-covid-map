@@ -41,7 +41,7 @@ export default function DisplayToggle({displayMode,setDisplayMode}) {
             backgroundColor: "rgba(255,0,0,0.2)"
           },
           border: 'solid 3px grey',
-          borderRadius: '4px',
+          borderRadius: '10px',
           backgroundColor: 'white',
 
         }}
@@ -60,7 +60,7 @@ export default function DisplayToggle({displayMode,setDisplayMode}) {
             border: 'solid 3px green',
           },
           border: 'solid 3px grey',
-          borderRadius: '4px',
+          borderRadius: '10px',
           backgroundColor: 'white'
         }}
       ><VaccinesIcon />Vaccination <br/> Rate</ToggleButton>
