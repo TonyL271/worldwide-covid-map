@@ -9,7 +9,7 @@ function CovidApp() {
    const [geoJson, setGeoJson] = useState([]);
    const [stats, setStats] = useState({});
    const [smallScreen, setSmallScreen] = useState(window.innerWidth < 1000);
-   const [focusRegion, setFocusRegion] = useState('');
+   const [focusRegion, setFocusRegion] = useState({name:'United States'});
    const [open, setOpen] = useState(false);
    const [displayMode, setDisplayMode] = useState('cases')
 

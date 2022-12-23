@@ -2,9 +2,10 @@ import React, { useEffect, useMemo } from 'react'
 import { useTable, useSortBy } from 'react-table'
 import MaUTable from '@material-ui/core/Table'
 import { Box } from '@mui/material'
-import {Body,Head} from './'
+import { Body, Head } from './'
 
-const CovidTable = ({ displayMode, geoJson, stats,focusRegion,setFocusRegion }) => {
+const CovidTable = ({ displayMode, geoJson, stats, focusRegion, setFocusRegion }) => {
+
     const data = React.useMemo(
         () => {
             let result = []
@@ -28,6 +29,7 @@ const CovidTable = ({ displayMode, geoJson, stats,focusRegion,setFocusRegion }) 
         },
         []
     )
+
 
     const covidCaseSort = (a, b) => {
         a = a.values.covidCase.split(',').reduce((a, b) => a + b);
@@ -148,8 +150,14 @@ const CovidTable = ({ displayMode, geoJson, stats,focusRegion,setFocusRegion }) 
             marginTop: 0
         }}>
             <MaUTable {...getTableProps()} >
-                <Head headerGroups={headerGroups}/>
-                <Body rows={rows} getTableBodyProps={getTableBodyProps} prepareRow={prepareRow} />
+                <Head headerGroups={headerGroups} />
+                <Body
+                    rows={rows}
+                    getTableBodyProps={getTableBodyProps}
+                    prepareRow={prepareRow}
+                    focusRegion={focusRegion}
+                    setFocusRegion={setFocusRegion}
+                />
             </MaUTable>
         </Box >
     )

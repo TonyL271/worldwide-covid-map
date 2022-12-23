@@ -1,12 +1,25 @@
 import { TableRow, TableBody, TableCell } from '@material-ui/core'
 
-const Body = ({ rows, prepareRow, getTableBodyProps }) => {
+const Body = ({ rows, prepareRow, getTableBodyProps, focusRegion, setFocusRegion }) => {
+
+
+    const isSelectedRow = (row) => {
+        return row.original.country === focusRegion.name;
+    }
+
+    const downHandler = (row) => {
+        setFocusRegion({ name: row.values.country })
+    }
+
     return (
-        <TableBody {...getTableBodyProps()}>
-            {rows.map(row => {
+        <TableBody {...getTableBodyProps()} >
+            {rows.map((row, idx) => {
                 prepareRow(row)
                 return (
-                    <TableRow {...row.getRowProps()}>
+                    <TableRow
+                        {...row.getRowProps()}
+                        onPointerDown={() => { downHandler(row) }}
+                    >
                         {row.cells.map(cell => {
                             return (
                                 <TableCell
@@ -17,7 +30,7 @@ const Body = ({ rows, prepareRow, getTableBodyProps }) => {
                                         px: '0.5rem',
                                         borderBottom: 'solid 1px white',
                                         color: 'white',
-                                        background: '#181A1B',
+                                        background: isSelectedRow(row) ? 'orange' : '#181A1B',
                                         fontSize: '0.8rem',
                                     }}
                                 >
