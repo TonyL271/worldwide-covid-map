@@ -1,9 +1,18 @@
 import { TableRow, TableBody, TableCell } from '@material-ui/core'
+import { useRef } from 'react'
 
 const Body = ({ rows, prepareRow, getTableBodyProps, focusRegion, setFocusRegion }) => {
-
+    const tableRef = useRef(null)
 
     const isSelectedRow = (row) => {
+        if (row.original.country === focusRegion.name && tableRef?.current) {
+            const selectedRow = (
+                [...tableRef?.current?.children].find(
+                    (row) => row.children[0].innerText === focusRegion.name
+                )
+            );
+            selectedRow?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
         return row.original.country === focusRegion.name;
     }
 
@@ -12,7 +21,7 @@ const Body = ({ rows, prepareRow, getTableBodyProps, focusRegion, setFocusRegion
     }
 
     return (
-        <TableBody {...getTableBodyProps()} >
+        <TableBody {...getTableBodyProps()} ref={tableRef} >
             {rows.map((row, idx) => {
                 prepareRow(row)
                 return (

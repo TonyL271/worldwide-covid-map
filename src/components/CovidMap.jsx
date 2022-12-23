@@ -15,6 +15,7 @@ const CovidMap = ({ geoJson, colors, stats: { ranges }, focusRegion, setFocusReg
             const layerMatch = layers.find((layer) =>
                 layer.feature.properties.name === focusRegion.name
             )
+            console.log(layerMatch)
             // Exception for Russia and US because they cross the dateline
             // Exception for France because some of its teritory is in south america
             switch (focusRegion.name) {
