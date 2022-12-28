@@ -1,6 +1,6 @@
 import React from 'react'
 import MenuIcon from '@mui/icons-material/Menu';
-const Hamburger = ({ open, setOpen, sx}) => {
+const Hamburger = ({ open, setOpen, sx, }) => {
     return (
         <MenuIcon
             sx={{

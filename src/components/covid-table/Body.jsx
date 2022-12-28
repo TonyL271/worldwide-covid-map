@@ -1,7 +1,7 @@
 import { TableRow, TableBody, TableCell } from '@material-ui/core'
 import { useRef } from 'react'
 
-const Body = ({ rows, prepareRow, getTableBodyProps, focusRegion, setFocusRegion }) => {
+const Body = ({ rows, prepareRow, getTableBodyProps, focusRegion, setFocusRegion, }) => {
     const tableRef = useRef(null)
 
     const isSelectedRow = (row) => {
@@ -27,7 +27,10 @@ const Body = ({ rows, prepareRow, getTableBodyProps, focusRegion, setFocusRegion
                 return (
                     <TableRow
                         {...row.getRowProps()}
-                        onPointerDown={() => { downHandler(row) }}
+                        onPointerDown={(e) => {
+                            e.stopPropagation()
+                            downHandler(row)
+                        }}
                     >
                         {row.cells.map(cell => {
                             return (

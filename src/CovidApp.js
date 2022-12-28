@@ -22,6 +22,9 @@ function CovidApp() {
          window.removeEventListener('resize', smallScreenListener);
       }
    }
+   useEffect(() => {
+      setOpen(false);
+   }, [focusRegion])
 
    useEffect(() => {
       loadGeoData().then(geoJson => setGeoJson(geoJson))
@@ -70,6 +73,7 @@ function CovidApp() {
                      focusRegion={focusRegion} setFocusRegion={setFocusRegion}
                      geoJson={geoJson} displayMode={displayMode}
                      stats={stats} smallScreen={smallScreen}
+                     setOpen={setOpen}
                   /> : <Loading />}
             </Box>
          </Box>

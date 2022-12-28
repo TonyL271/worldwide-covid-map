@@ -4,7 +4,7 @@ import MaUTable from '@material-ui/core/Table'
 import { Box } from '@mui/material'
 import { Body, Head } from './'
 
-const CovidTable = ({ displayMode, geoJson, stats, focusRegion, setFocusRegion }) => {
+const CovidTable = ({ displayMode, geoJson, stats, focusRegion, setFocusRegion, setOpen }) => {
 
     const data = React.useMemo(
         () => {
@@ -111,7 +111,11 @@ const CovidTable = ({ displayMode, geoJson, stats, focusRegion, setFocusRegion }
     }, [displayMode])
 
     return (
-        <Box sx={{
+        <Box 
+        onPointerDown={(e) => {
+            e.stopPropagation();
+        }}
+        sx={{
             margin: '1rem',
             padding: '1px',
             border: '1px solid white',

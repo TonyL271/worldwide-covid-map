@@ -15,24 +15,30 @@ const CovidMap = ({ geoJson, colors, stats: { ranges }, focusRegion, setFocusReg
             const layerMatch = layers.find((layer) =>
                 layer.feature.properties.name === focusRegion.name
             )
-            console.log(layerMatch)
             // Exception for Russia and US because they cross the dateline
             // Exception for France because some of its teritory is in south america
+
+            const coord = layerMatch.feature.properties.coord;
+            console.log(coord)
             switch (focusRegion.name) {
                 case 'United States':
-                    layerMatch.openPopup([39.095963, -98.923645]);
+                    layerMatch.openPopup(coord);
                     mapRef.current.fitBounds([[71.469124, -63.145981], [24.527135, -168.263168]])
                     break;
                 case 'Russia':
-                    layerMatch.openPopup([64.793412, 108.609283]);
+                    layerMatch.openPopup(coord);
                     mapRef.current.fitBounds([[79.196590, 180.000000], [39.368279, 24.920425]])
                     break;
                 case 'France':
-                    layerMatch.openPopup([46.906184, 2.460938]);
+                    layerMatch.openPopup(coord);
                     mapRef.current.fitBounds([[51.941090, 9.404297], [42.048018, -5.361328]])
                     break;
                 default:
-                    layerMatch.openPopup(layerMatch.getBounds().getCenter());
+                    layerMatch.openPopup(
+                        coord ?
+                            coord :
+                            layerMatch.getBounds().getCenter()
+                    );
                     mapRef.current.fitBounds(layerMatch.getBounds())
             }
         }
