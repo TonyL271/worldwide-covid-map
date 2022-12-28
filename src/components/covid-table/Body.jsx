@@ -1,9 +1,9 @@
 import { TableRow, TableBody, TableCell } from '@material-ui/core'
-import { useRef,useState } from 'react'
+import { useRef } from 'react'
 
 const Body = ({ rows, prepareRow, getTableBodyProps, focusRegion, setFocusRegion, }) => {
     const tableRef = useRef(null)
-    const [pointerStartCords, setPointerStartCords] = useState({ x: 0, y: 0 })
+    const pointerStartCords = useRef({})
 
     const isSelectedRow = (row) => {
         if (row.original.country === focusRegion.name && tableRef?.current) {
@@ -29,12 +29,12 @@ const Body = ({ rows, prepareRow, getTableBodyProps, focusRegion, setFocusRegion
                     <TableRow
                         {...row.getRowProps()}
                         onPointerDown={(e) => {
-                            setPointerStartCords({ x: e.clientX, y: e.clientY })
+                            pointerStartCords.current = { x: e.clientX, y: e.clientY }
                             e.stopPropagation()
                         }}
                         onPointerUp={(e) => {
                             e.stopPropagation()
-                            if (Math.abs(e.clientX - pointerStartCords.x) < 10 && Math.abs(e.clientY - pointerStartCords.y) < 10)
+                            if (Math.abs(e.clientX - pointerStartCords.current.x) < 10 && Math.abs(e.clientY - pointerStartCords.current.y) < 10)
                                 downHandler(row)
                         }}
                     >
