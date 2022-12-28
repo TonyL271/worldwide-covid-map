@@ -98,7 +98,7 @@ const CovidMap = ({ geoJson, colors, stats: { ranges }, focusRegion, setFocusReg
     return (
         <MapContainer
             ref={mapRef}
-            style={{ backgroundColor: '#25282D', height: '90%', width: '100%' }}
+            style={{ backgroundColor: '#25282D', height: '100%', width: '100%' }}
             center={[39.162497380360634, 0]}
             zoom={2.5}
             options={{ WorldCopyJump: true }}

@@ -3,16 +3,15 @@ import LegendItems from './LegendItems'
 import { Grid } from '@mui/material'
 
 
-const Legend = ({ colors, stats, smallScreen,sx }) => {
+const Legend = ({ colors, stats, smallScreen, sx }) => {
+  const intervalCount = 6
   return (
     <Grid container className='legend' sx={sx}>
-      <LegendItems smallScreen={smallScreen} range={stats.ranges[0]} bColor={colors[0]} />
-      <LegendItems smallScreen={smallScreen} range={stats.ranges[1]} bColor={colors[1]} />
-      <LegendItems smallScreen={smallScreen} range={stats.ranges[2]} bColor={colors[2]} />
-      <LegendItems smallScreen={smallScreen} range={stats.ranges[3]} bColor={colors[3]} />
-      <LegendItems smallScreen={smallScreen} range={stats.ranges[4]} bColor={colors[4]} />
-      <LegendItems smallScreen={smallScreen} range={stats.ranges[5]} bColor={colors[5]} />
-      <LegendItems smallScreen={smallScreen} range={stats.ranges[6]} bColor={colors[6]} />
+      {
+        Array(intervalCount).fill(0).map((_, i) => (
+          <LegendItems key={i} smallScreen={smallScreen} range={stats.ranges[i]} bColor={colors[i]} />
+        ))
+      }
     </Grid>
   )
 }

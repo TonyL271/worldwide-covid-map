@@ -9,7 +9,7 @@ function CovidApp() {
    const [geoJson, setGeoJson] = useState([]);
    const [stats, setStats] = useState({});
    const [smallScreen, setSmallScreen] = useState(window.innerWidth < 1000);
-   const [focusRegion, setFocusRegion] = useState({name:'United States'});
+   const [focusRegion, setFocusRegion] = useState({ name: 'United States' });
    const [open, setOpen] = useState(false);
    const [displayMode, setDisplayMode] = useState('cases')
 
@@ -40,7 +40,7 @@ function CovidApp() {
          <Box className="menu" sx={{
             display: !open && smallScreen ? 'none' : 'flex',
             width: smallScreen ? '100vw' : '350px',
-            height: '100vh',
+            height: `${window.innerHeight}px`,
             flexDirection: 'column',
             backgroundColor: '#181A1B',
             zIndex: open && smallScreen ? 2000 : 'auto',
@@ -77,19 +77,25 @@ function CovidApp() {
                   /> : <Loading />}
             </Box>
          </Box>
-         <Box className="mapContainer" sx={{ display: smallScreen && open ? "none" : 'flex' }}>
+         <Box className="mapContainer" sx={{
+            display: smallScreen && open ? "none" : 'flex',
+            height: `${window.innerHeight}px`
+         }}>
             {smallScreen && <Hamburger open={open} setOpen={setOpen} sx={{ position: 'absolute' }} />}
             {stats.hasOwnProperty('ranges') ?
-               <CovidMap
-                  geoJson={geoJson}
-                  colors={colors}
-                  stats={stats}
-                  focusRegion={focusRegion}
-                  setFocusRegion={setFocusRegion}
-               /> :
+               <Box sx={{ height: '90%', }}>
+                  <CovidMap
+                     geoJson={geoJson}
+                     colors={colors}
+                     stats={stats}
+                     focusRegion={focusRegion}
+                     setFocusRegion={setFocusRegion}
+                  />
+               </Box>
+               :
                <div>Loading</div>}
             {stats.hasOwnProperty('ranges') ?
-               <Legend geoJson={geoJson} colors={colors} stats={stats} smallScreen={smallScreen} sx={{ height: '10%' }} /> :
+               <Legend geoJson={geoJson} colors={colors} stats={stats} smallScreen={smallScreen} sx={{ flexBasis: 'max-content' }} /> :
                <Loading />}
          </Box>
       </div >

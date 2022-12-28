@@ -29,12 +29,12 @@ const LegendItems = ({ range, bColor, smallScreen }) => {
         textAlign:'center',
         width: '100%',
         height: '100%',
+        padding:'0.5rem',
         fontSize: {
-          xs: '0.8rem',
+          xs: '1rem',
           sm: '1rem',
           md: '1.4rem',
         }
-
       }}>
         {from}
         <Box sx={{width:'100%'}}> - </Box>
